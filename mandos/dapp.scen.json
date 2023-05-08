@@ -1,0 +1,201 @@
+{
+    "name": "dapp-sc",
+    "comment": "vital dapp",
+    "gasSchedule": "v3",
+    "steps": [
+        {
+            "step": "setState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "1",
+                    "balance": "0"
+                },
+                "address:user_a_account": {
+                    "nonce": "1",
+                    "balance": "0"
+                },
+                "address:user_b_account": {
+                    "nonce": "1",
+                    "balance": "0",
+                    "esdt": {
+                        "str:USDC-0001": "500,000,000"
+                    }
+                },
+                "address:user_c_account": {
+                    "nonce": "1",
+                    "balance": "0",
+                    "esdt": {
+                        "str:USDC-0001": "500,000,000"
+                    }
+                },
+                "sc:dapp": {
+                    "nonce": "0",
+                    "esdt": {
+                        "str:VITAL-0001": "100,000,000,000,000,000,000"
+                    },
+                    "code": "file:../output/dapp-sc.wasm"
+                }
+            },
+            "newAddresses": [
+                {
+                    "creatorAddress": "address:owner",
+                    "creatorNonce": "1",
+                    "newAddress": "sc:dapp"
+                }
+            ]
+        },
+        {
+            "step": "scDeploy",
+            "id": "1",
+            "tx": {
+                "from": "address:owner",
+                "contractCode": "file:../output/dapp-sc.wasm",
+                "arguments": [
+                    "str:USDC-0001",
+                    "2,000,000,000",
+                    "100,000,000,000",
+                    "address:owner",
+                    "address:owner",
+                    "str:WEGLD-0001",
+                    "address:owner",
+                    "address:owner",
+                    "address:owner",
+                    "address:owner",
+                    "30",
+                    "str:VITAL-0001",
+                    "1,000,000",
+                    "1,000,000,000,000,000,000"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "2",
+            "tx": {
+                "from": "address:user_a_account",
+                "to": "sc:dapp",
+                "function": "createProject",
+                "arguments": [
+                    "str:name",
+                    "str:category",
+                    "str:owner_name",
+                    "100,000,000",
+                    "str:1"
+                ],
+                "gasLimit": "60,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "3",
+            "tx": {
+                "from": "address:user_b_account",
+                "to": "sc:dapp",
+                "egldValue": "0",
+                "esdtValue": [
+                    {
+                        "tokenIdentifier": "str:USDC-0001",
+                        "value": "100,000,000"
+                    }
+                ],
+                "function": "participateProject",
+                "arguments": [
+                    "1",
+                    ""
+                ],
+                "gasLimit": "60,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "setState",
+            "comment": "only set block info this time",
+            "currentBlockInfo": {
+                "blockTimestamp": "511"
+            }
+        },
+        {
+            "step": "scCall",
+            "id": "5",
+            "tx": {
+                "from": "address:user_a_account",
+                "to": "sc:dapp",
+                "function": "withdrawFunds",
+                "arguments": [
+                    "1"
+                ],
+                "gasLimit": "60,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "2",
+                    "esdt": {
+                        "str:USDC-0001": "3,000,000"
+                    }
+                },
+                "address:user_a_account": {
+                    "nonce": "3",
+                    "esdt": {
+                        "str:USDC-0001": "97,000,000"
+                    }
+                },
+                "address:user_b_account": {
+                    "nonce": "2",
+                    "esdt": {
+                        "str:USDC-0001": "400,000,000",
+                        "str:VITAL-0001": "300,000,000,000,000,000"
+                    }
+                },
+                "address:user_c_account": {
+                    "nonce": "1",
+                    "esdt": {
+                        "str:USDC-0001": "500,000,000"
+                    }
+                },
+                "sc:dapp": {
+                    "nonce": "0",
+                    "balance": "0",
+                    "code": "file:../output/dapp-sc.wasm",
+                    "esdt": {
+                        "str:VITAL-0001": "99,700,000,000,000,000,000"
+                    }
+                }
+            }
+        }
+    ]
+}

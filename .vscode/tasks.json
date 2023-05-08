@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Dump env",
+            "command": "node",
+            "args": ["-e", "console.log(JSON.stringify(process.env, null, 4))"],
+            "type": "process",
+            "options": {
+                "env": {"PATH":"${env:HOME}/multiversx-sdk/vendor-rust/bin:${env:HOME}/multiversx-sdk/mxpy-venv/bin:${env:HOME}/multiversx-sdk/vmtools:${env:HOME}/multiversx-sdk/nodejs/latest/bin:${env:PATH}","VIRTUAL_ENV":"${env:HOME}/multiversx-sdk/mxpy-venv","RUSTUP_HOME":"${env:HOME}/multiversx-sdk/vendor-rust","CARGO_HOME":"${env:HOME}/multiversx-sdk/vendor-rust"}
+            }
+        }
+    ]
+}
